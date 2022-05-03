@@ -1,7 +1,7 @@
 type BlockEntity @entity {
   id: ID!
-  blocknum: BigInt! 
-  timestamp: BigInt!
+  blocknum: BigInt
+  timestamp: BigInt
   prevtimestamp: BigInt
   diff: BigInt
 }
