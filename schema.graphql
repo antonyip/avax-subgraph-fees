@@ -1,7 +1,6 @@
 type BlockEntity @entity {
   id: ID!
-  count: BigInt!
   timestamp: BigInt! # uint256
-  prevtimestamp: BigInt! #uint256
-  diff: BigInt! #uint256
+  prevtimestamp: BigInt #uint256
+  diff: BigInt #uint256
 }
