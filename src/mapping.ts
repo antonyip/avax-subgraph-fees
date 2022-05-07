@@ -18,6 +18,10 @@ export function getOrCreateBlock(id: string): BlockEntity {
   return result;
 }
 
+function getValueOr0(val: BigInt): BigInt {
+  return val ? BIGZERO : val;
+}
+
 export function handleBlock(block: ethereum.Block): void {
 
   if (block.number > BIGONE)
@@ -25,7 +29,7 @@ export function handleBlock(block: ethereum.Block): void {
     // init historical values
     var block0 = getOrCreateBlock('0');
     block0.blocknum = BIGZERO;
-    //block0.timestamp = block0.timestam ? block0.timestamp : BIGZERO;
+    block0.timestamp = block0.timestamp === null ? BIGZERO : block0.timestamp;
     
 
     // create and set new block
@@ -34,9 +38,11 @@ export function handleBlock(block: ethereum.Block): void {
     b.blocknum = block.number;
 
     // do math for previous blocks
-    //b.prevtimestamp = block0.timestamp;
-    //b.diff = b.timestamp.minus(block0.timestamp);
-    //block0.timestamp = block.timestamp;
+    b.prevtimestamp = block0.timestamp;
+    const curTime = b.timestamp as BigInt;
+    const prevTime = block0.timestamp as BigInt;
+    b.diff = curTime.minus(prevTime);
+    block0.timestamp = block.timestamp;
 
     // save the results.
     b.save();
