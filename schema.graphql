@@ -1,7 +1,5 @@
 type BlockEntity @entity {
   id: ID!
-  blocknum: BigInt
+  totalFees: BigInt
   timestamp: BigInt
-  prevtimestamp: BigInt
-  diff: BigInt
 }

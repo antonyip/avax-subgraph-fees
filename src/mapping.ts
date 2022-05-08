@@ -7,45 +7,30 @@ import { BlockEntity } from "../generated/schema"
 var BIGZERO = new BigInt(0);
 var BIGONE = new BigInt(1)
 
-export function getOrCreateBlock(id: string): BlockEntity {
-  var result = BlockEntity.load(id);
+export function getOrCreateDayDate(id: BigInt): BlockEntity {
+  const dateTime = new Date(id.toU32());
+  const dayDate = dateTime.getUTCDay();
+  var result = BlockEntity.load(dayDate.toString());
   
   if (result === null)
   {
-    result = new BlockEntity(id);
+    result = new BlockEntity(dayDate.toString());
+    result.timestamp = new BigInt(dayDate);
+    result.totalFees = new BigInt(0);
+    result.save();
   }
 
   return result;
 }
 
-function getValueOr0(val: BigInt): BigInt {
-  return val ? BIGZERO : val;
-}
-
 export function handleBlock(block: ethereum.Block): void {
 
-  if (block.number > BIGONE)
-  {
-    // init historical values
-    var block0 = getOrCreateBlock('0');
-    block0.blocknum = BIGZERO;
-    block0.timestamp = block0.timestamp === null ? BIGZERO : block0.timestamp;
-    
-
     // create and set new block
-    var b = getOrCreateBlock(block.number.toString());
-    b.timestamp = block.timestamp;
-    b.blocknum = block.number;
+    var b = getOrCreateDayDate(block.timestamp);   
 
     // do math for previous blocks
-    b.prevtimestamp = block0.timestamp;
-    const curTime = b.timestamp as BigInt;
-    const prevTime = block0.timestamp as BigInt;
-    b.diff = curTime.minus(prevTime);
-    block0.timestamp = block.timestamp;
+    (b.totalFees as BigInt).plus(block.gasUsed);
 
     // save the results.
     b.save();
-    block0.save();
-  }
 }

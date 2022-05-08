@@ -1,13 +1,13 @@
 {
-  "name": "avax-blocks-subgraph",
+  "name": "avax-subgraph-fees",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --product hosted-service antonyip/avax-blocks",
-    "create-local": "graph create --node http://localhost:8020/ antonyip/avax-blocks-subgraph",
-    "remove-local": "graph remove --node http://localhost:8020/ antonyip/avax-blocks-subgraph",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 antonyip/avax-blocks-subgraph"
+    "deploy": "graph deploy --product hosted-service antonyip/avax-subgraph-fees",
+    "create-local": "graph create --node http://localhost:8020/ antonyip/avax-subgraph-fees",
+    "remove-local": "graph remove --node http://localhost:8020/ antonyip/avax-subgraph-fees",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 antonyip/avax-subgraph-fees"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.29.1",
